@@ -127,6 +127,7 @@ const LoginScreen = () => {
           </Text>
         </TouchableOpacity>
       </View>
+      <Text style={styles.credit}>Developed by Akash Patel with ❤️ in Bengaluru</Text>
     </KeyboardAvoidingView>
   );
 };
@@ -193,6 +194,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: palette.border,
     ...shadows.card,
+  },
+  credit: {
+    marginTop: 18,
+    textAlign: 'center',
+    color: palette.textMuted,
+    fontSize: 12,
+    letterSpacing: 0.2,
   },
   sectionTitle: {
     fontSize: 24,

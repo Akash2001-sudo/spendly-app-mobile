@@ -54,6 +54,7 @@ const HomeScreen = () => {
         <Tab.Screen name="Add Expense" component={ExpenseForm} />
         <Tab.Screen name="Chart" component={MonthlySpendChart} />
       </Tab.Navigator>
+      <Text style={styles.credit}>Developed by Akash Patel with ❤️ in Bengaluru</Text>
     </SafeAreaView>
   );
 };
@@ -122,6 +123,13 @@ const styles = StyleSheet.create({
     textTransform: 'none',
     fontSize: 13,
     fontWeight: '700',
+  },
+  credit: {
+    textAlign: 'center',
+    color: palette.textMuted,
+    fontSize: 12,
+    paddingHorizontal: 20,
+    paddingBottom: 12,
   },
 });
 
