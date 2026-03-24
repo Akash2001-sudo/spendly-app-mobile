@@ -1,24 +1,23 @@
 {
   "expo": {
-    "name": "spendly-app-mobile",
+    "name": "Spendly",
     "slug": "spendly-app-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/spendly-wallet-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/baby_dino_one.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#f6efe7"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
+        "backgroundColor": "#ffffff",
+        "foregroundImage": "./assets/spendly-wallet-icon.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "package": "com.akp18129.spendlyappmobile"
