@@ -57,3 +57,26 @@ export const useDeleteExpense = () => {
     },
   });
 };
+
+export const useBulkDeleteExpenses = () => {
+  const queryClient = useQueryClient();
+  const { showMessage } = useDialog();
+
+  return useMutation<void, Error, string[]>({
+    mutationFn: async (ids) => {
+      await Promise.all(ids.map((id) => deleteExpense(id)));
+    },
+    onSuccess: (_, ids) => {
+      showMessage('Deleted', `${ids.length} expense${ids.length === 1 ? '' : 's'} removed.`);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['expenses'] });
+    },
+    onError: (error) => {
+      console.error('Error deleting expenses:', error);
+      showMessage('Error', error.message || 'Failed to delete selected expenses.', {
+        variant: 'danger',
+      });
+    },
+  });
+};

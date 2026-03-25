@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import type { MaterialTopTabNavigationProp } from '@react-navigation/material-top-tabs';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useCreateExpense } from '../hooks/useExpenses';
-import { palette, shadows } from '../theme/ui';
 import type { HomeTabParamList } from '../navigation/types';
+import { useTheme } from '../context/ThemeContext';
 
 const ExpenseForm = () => {
   const [description, setDescription] = useState('');
@@ -14,6 +14,8 @@ const ExpenseForm = () => {
 
   const createExpense = useCreateExpense();
   const navigation = useNavigation<MaterialTopTabNavigationProp<HomeTabParamList>>();
+  const { palette, shadows } = useTheme();
+  const styles = useMemo(() => createStyles(palette, shadows), [palette, shadows]);
 
   const handleSubmit = () => {
     createExpense.mutate(
@@ -78,7 +80,10 @@ const ExpenseForm = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (
+  palette: ReturnType<typeof useTheme>['palette'],
+  shadows: ReturnType<typeof useTheme>['shadows']
+) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: palette.background,

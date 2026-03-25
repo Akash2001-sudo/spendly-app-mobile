@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Animated,
   View,
@@ -15,8 +15,8 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthContext } from '../context/AuthContext';
 import type { RootStackParamList } from '../navigation/types';
-import { palette, shadows } from '../theme/ui';
 import { useDialog } from '../context/DialogContext';
+import { useTheme } from '../context/ThemeContext';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -25,6 +25,8 @@ const LoginScreen = () => {
   const { login } = useContext(AuthContext)!;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const { showMessage } = useDialog();
+  const { palette, shadows, toggleTheme, isDark } = useTheme();
+  const styles = useMemo(() => createStyles(palette, shadows, isDark), [palette, shadows, isDark]);
   const mascotFloat = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -88,6 +90,9 @@ const LoginScreen = () => {
     >
       <View style={styles.glowTop} />
       <View style={styles.glowBottom} />
+      <TouchableOpacity style={styles.themeToggle} onPress={toggleTheme}>
+        <Text style={styles.themeToggleText}>{isDark ? 'Light Mode' : 'Dark Mode'}</Text>
+      </TouchableOpacity>
       <View style={styles.header}>
         <Animated.View style={[styles.logoFrame, mascotStyle]}>
           <Image
@@ -132,7 +137,11 @@ const LoginScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (
+  palette: ReturnType<typeof useTheme>['palette'],
+  shadows: ReturnType<typeof useTheme>['shadows'],
+  isDark: boolean
+) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: palette.background,
@@ -146,8 +155,8 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 90,
-    backgroundColor: '#f6d7b8',
-    opacity: 0.5,
+    backgroundColor: isDark ? '#244045' : '#f6d7b8',
+    opacity: isDark ? 0.42 : 0.5,
   },
   glowBottom: {
     position: 'absolute',
@@ -156,8 +165,25 @@ const styles = StyleSheet.create({
     width: 220,
     height: 220,
     borderRadius: 110,
-    backgroundColor: '#d7efe7',
-    opacity: 0.8,
+    backgroundColor: isDark ? '#224b47' : '#d7efe7',
+    opacity: isDark ? 0.45 : 0.8,
+  },
+  themeToggle: {
+    position: 'absolute',
+    top: 58,
+    right: 24,
+    zIndex: 2,
+    backgroundColor: palette.surfaceStrong,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: palette.border,
+    paddingHorizontal: 14,
+    paddingVertical: 9,
+  },
+  themeToggleText: {
+    color: palette.text,
+    fontSize: 13,
+    fontWeight: '700',
   },
   header: {
     alignItems: 'center',
